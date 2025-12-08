@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Pokemon } from 'src/pokemon/entities/pokemon.entity';
 import { Model } from 'mongoose';
 import { CreatePokemonDto } from 'src/pokemon/dto/create-pokemon.dto';
+import { AxiosAdapter } from 'src/common/adaters/axios.adapter';
 
 const url = 'https://pokeapi.co/api/v2/pokemon?limit=650'
 
@@ -13,16 +14,17 @@ export class SeedService {
   constructor(
 
     @InjectModel(Pokemon.name)
-    private readonly pokemonModel: Model<Pokemon>
+    private readonly pokemonModel: Model<Pokemon>,
+
+    private readonly http: AxiosAdapter,
+
   ) { }
 
-  private readonly axios: AxiosInstance = axios;
-
-  //Insetar por lote
+  //Insetar por loteS
 
   async executeSeed() {
     await this.pokemonModel.deleteMany({})
-    const { data } = await this.axios.get<PokeResponse>(url);
+    const data = await this.http.get<PokeResponse>(url);
 
     /*data.results.forEach(async ({ name, url }) => {
       const segments = url.split('/')
@@ -51,14 +53,14 @@ export class SeedService {
 
     //2. Forma mas eficiente de hacer insescion de multiple registros
 
-    const pokemonToInsert: { name: string, no: number}[] = [];
+    const pokemonToInsert: { name: string, no: number }[] = [];
 
     data.results.forEach(({ name, url }) => {
       const segments = url.split('/')
       const no = +segments[segments.length - 2];
       const na = name
 
-      pokemonToInsert.push({name, no})
+      pokemonToInsert.push({ name, no })
     })
 
     await this.pokemonModel.insertMany(pokemonToInsert)
