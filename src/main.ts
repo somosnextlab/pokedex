@@ -11,6 +11,13 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
+    
+      //Forma facil de validar los dtos. 
+      // Esto sirve para los quert parameters en las URL, transforma de stringa number o tipo de dato requerido
+      transform: true,
+      transformOptions:{
+        enableImplicitConversion: true
+      }
     })
   );
 
