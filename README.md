@@ -6,14 +6,17 @@
 # Ejecutar en desarrollo
 
 1. Clonar el repo
+
 2. Ejecutar 
 ````
 npm run install
 ````
+
 3. Instalar Nest CLI
 ````
 npm i -g @nestjs/cli
 ````
+
 4. Levantar la DB 
 ````
 docker-compose up -d
