@@ -24,7 +24,9 @@ import { JoiValidationSchema } from './config/joi.validation';
     }),
     // error indica que la variable puede ser undefined (en caso de que no configures las variables de entorno).
     // Una solución es indicarle que siempre vas a tener la variable definida, de esta manera:
-    MongooseModule.forRoot(process.env.MONGODB!),
+    MongooseModule.forRoot(process.env.MONGODB!, {
+      dbName: 'pokemonsdb'
+    }),
     PokemonModule,
     CommonModule,
     SeedModule,
